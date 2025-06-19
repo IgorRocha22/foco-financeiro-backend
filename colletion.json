@@ -1,0 +1,273 @@
+{
+	"info": {
+		"_postman_id": "b3e9a7e1-9c5f-4a3e-8a0f-d1f2e3a4b5c6",
+		"name": "Foco Financeiro API",
+		"description": "Coleção de testes para a API do Foco Financeiro, desenvolvida com Spring Boot. O fluxo recomendado é:\n1. Registrar um usuário.\n2. Fazer login para obter o token JWT (ele será salvo automaticamente).\n3. Criar categorias.\n4. Criar lançamentos associados às categorias.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Autenticação",
+			"item": [
+				{
+					"name": "1. Registrar Novo Usuário",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"usuario_teste\",\n    \"password\": \"senha_segura123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/registrar",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"registrar"
+							]
+						},
+						"description": "Cria um novo usuário no sistema. Altere o username e password conforme necessário. "
+					},
+					"response": []
+				},
+				{
+					"name": "2. Fazer Login e Salvar Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Tenta parsear a resposta como JSON",
+									"var jsonData = pm.response.json();",
+									"",
+									"// Pega o valor da chave 'token' da resposta",
+									"var token = jsonData.token;",
+									"",
+									"// Define o token como uma variável de coleção para ser usada em outras requisições",
+									"pm.collectionVariables.set(\"jwt_token\", token);",
+									"",
+									"console.log(\"Token JWT salvo com sucesso!\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"usuario_teste\",\n    \"password\": \"senha_segura123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						},
+						"description": "Autentica o usuário e salva o token JWT na variável 'jwt_token' para ser usado nas outras requisições."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para registro e login de usuários."
+		},
+		{
+			"name": "2. Categorias",
+			"item": [
+				{
+					"name": "Criar Nova Categoria",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Salva o ID da categoria criada para usar no teste de lançamento",
+									"var jsonData = pm.response.json();",
+									"if (jsonData && jsonData.id) {",
+									"    pm.collectionVariables.set(\"categoria_id\", jsonData.id);",
+									"    console.log(\"ID da Categoria salvo: \" + jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"Alimentação\",\n    \"descricao\": \"Gastos com supermercado e restaurantes\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/categorias",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"categorias"
+							]
+						},
+						"description": "Cria uma nova categoria para o usuário logado. Execute após o login."
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Todas as Categorias",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/categorias",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"categorias"
+							]
+						},
+						"description": "Lista todas as categorias pertencentes ao usuário logado."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para gerenciar categorias de lançamentos."
+		},
+		{
+			"name": "3. Lançamentos",
+			"item": [
+				{
+					"name": "Criar Novo Lançamento",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"descricao\": \"Compra do mês - Supermercado\",\n    \"valor\": 450.75,\n    \"tipo\": \"CUSTO\",\n    \"data\": \"2025-06-19\",\n    \"categoria\": {\n        \"id\": {{categoria_id}}\n    }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/lancamentos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"lancamentos"
+							]
+						},
+						"description": "Cria um novo lançamento financeiro. Certifique-se de ter criado uma categoria antes e que a variável 'categoria_id' foi salva automaticamente."
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Todos os Lançamentos",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/lancamentos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"lancamentos"
+							]
+						},
+						"description": "Lista todos os lançamentos financeiros do usuário logado."
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "jwt_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "categoria_id",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

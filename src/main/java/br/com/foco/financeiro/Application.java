@@ -1,4 +1,4 @@
-package br.com.ignrocha.foco.financeiro;
+package br.com.foco.financeiro;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
