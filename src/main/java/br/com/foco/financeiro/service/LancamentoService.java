@@ -5,12 +5,14 @@ import br.com.foco.financeiro.entity.Lancamento;
 import br.com.foco.financeiro.repository.LancamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class LancamentoService {
-    @Autowired private LancamentoRepository repository;
+    @Autowired
+    private LancamentoRepository repository;
 
     public List<LancamentoResponseDTO> listarTodos(Long usuarioId) {
         return repository.findByUsuarioId(usuarioId).stream()

@@ -15,17 +15,12 @@ public class LancamentoResponseDTO {
     private LocalDate data;
     private CategoriaResponseDTO categoria; // DTO aninhado
 
-    private LancamentoResponseDTO() {}
-
-    public Long getId() { return id; }
-    public String getDescricao() { return descricao; }
-    public BigDecimal getValor() { return valor; }
-    public TipoLancamento getTipo() { return tipo; }
-    public LocalDate getData() { return data; }
-    public CategoriaResponseDTO getCategoria() { return categoria; }
+    private LancamentoResponseDTO() {
+    }
 
     /**
      * Fábrica estática para converter uma entidade Lancamento em um LancamentoResponseDTO.
+     *
      * @param lancamento A entidade a ser convertida.
      * @return O DTO correspondente.
      */
@@ -40,6 +35,30 @@ public class LancamentoResponseDTO {
                 .build();
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public BigDecimal getValor() {
+        return valor;
+    }
+
+    public TipoLancamento getTipo() {
+        return tipo;
+    }
+
+    public LocalDate getData() {
+        return data;
+    }
+
+    public CategoriaResponseDTO getCategoria() {
+        return categoria;
+    }
+
     // Builder Pattern
     public static class Builder {
         private Long id;
@@ -49,12 +68,35 @@ public class LancamentoResponseDTO {
         private LocalDate data;
         private CategoriaResponseDTO categoria;
 
-        public Builder withId(Long id) { this.id = id; return this; }
-        public Builder withDescricao(String d) { this.descricao = d; return this; }
-        public Builder withValor(BigDecimal v) { this.valor = v; return this; }
-        public Builder withTipo(TipoLancamento t) { this.tipo = t; return this; }
-        public Builder withData(LocalDate d) { this.data = d; return this; }
-        public Builder withCategoria(CategoriaResponseDTO c) { this.categoria = c; return this; }
+        public Builder withId(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder withDescricao(String d) {
+            this.descricao = d;
+            return this;
+        }
+
+        public Builder withValor(BigDecimal v) {
+            this.valor = v;
+            return this;
+        }
+
+        public Builder withTipo(TipoLancamento t) {
+            this.tipo = t;
+            return this;
+        }
+
+        public Builder withData(LocalDate d) {
+            this.data = d;
+            return this;
+        }
+
+        public Builder withCategoria(CategoriaResponseDTO c) {
+            this.categoria = c;
+            return this;
+        }
 
         public LancamentoResponseDTO build() {
             LancamentoResponseDTO dto = new LancamentoResponseDTO();

@@ -15,6 +15,7 @@ public class RestExceptionHandler {
 
     /**
      * Manipulador para a nossa exceção customizada RecursoNaoEncontradoException.
+     *
      * @return Um ResponseEntity com status 404 e um corpo de erro padronizado.
      */
     @ExceptionHandler(RecursoNaoEncontradoException.class)
@@ -32,6 +33,7 @@ public class RestExceptionHandler {
 
     /**
      * Manipulador genérico para qualquer outra exceção não tratada.
+     *
      * @return Um ResponseEntity com status 500 e um corpo de erro padronizado.
      */
     @ExceptionHandler(Exception.class)

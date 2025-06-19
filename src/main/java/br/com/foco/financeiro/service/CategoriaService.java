@@ -5,12 +5,14 @@ import br.com.foco.financeiro.entity.Categoria;
 import br.com.foco.financeiro.repository.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class CategoriaService {
-    @Autowired private CategoriaRepository repository;
+    @Autowired
+    private CategoriaRepository repository;
 
     public List<CategoriaResponseDTO> listarTodas(Long usuarioId) {
         return repository.findByUsuarioId(usuarioId).stream()
