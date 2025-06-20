@@ -1,5 +1,5 @@
 #Dockerfile
-FROM maven:3.9.8-eclipse-temurin-24-jammy AS builder
+FROM maven:3.9.9-amazoncorretto-24 AS builder
 
 WORKDIR /app
 
