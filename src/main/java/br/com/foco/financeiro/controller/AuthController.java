@@ -2,6 +2,7 @@ package br.com.foco.financeiro.controller;
 
 import br.com.foco.financeiro.dto.AuthRequest;
 import br.com.foco.financeiro.dto.AuthResponse;
+import br.com.foco.financeiro.entity.Carteira;
 import br.com.foco.financeiro.entity.Usuario;
 import br.com.foco.financeiro.repository.UsuarioRepository;
 import br.com.foco.financeiro.security.JwtTokenProvider;
@@ -43,6 +44,10 @@ public class AuthController {
         Usuario usuario = new Usuario();
         usuario.setUsername(registerRequest.getUsername());
         usuario.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+
+        Carteira carteira = new Carteira();
+        carteira.setUsuario(usuario);
+        usuario.setCarteira(carteira);
         usuarioRepository.save(usuario);
         return ResponseEntity.ok("Usuário registrado com sucesso!");
     }

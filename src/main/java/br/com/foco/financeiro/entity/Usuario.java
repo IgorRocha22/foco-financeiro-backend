@@ -16,7 +16,9 @@ public class Usuario implements UserDetails {
     private String username;
     private String password;
 
-    // Getters e Setters
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private Carteira carteira;
+
     public Long getId() {
         return id;
     }
@@ -41,6 +43,14 @@ public class Usuario implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Carteira getCarteira() {
+        return carteira;
+    }
+
+    public void setCarteira(Carteira carteira) {
+        this.carteira = carteira;
     }
 
     @Override
