@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface LancamentoRepository extends JpaRepository<Lancamento, Long> {
-    List<Lancamento> findByUsuarioId(Long usuarioId);
+    List<Lancamento> findByCarteiraId(Long carteiraId);
 }

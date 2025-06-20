@@ -1,10 +1,12 @@
 package br.com.foco.financeiro.entity;
 
 
+import br.com.foco.financeiro.config.CarteiraListener;
 import jakarta.persistence.*;
 
 @Entity
-public class Categoria {
+@EntityListeners(CarteiraListener.class)
+public class Categoria implements ICarteira {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -12,8 +14,8 @@ public class Categoria {
     private String descricao;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_usuario", nullable = false)
-    private Usuario usuario;
+    @JoinColumn(name = "id_carteira", nullable = false)
+    private Carteira carteira;
 
     // Getters e Setters
     public Long getId() {
@@ -40,11 +42,11 @@ public class Categoria {
         this.descricao = descricao;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public Carteira getCarteira() {
+        return carteira;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setCarteira(Carteira carteira) {
+        this.carteira = carteira;
     }
 }

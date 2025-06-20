@@ -1,5 +1,6 @@
 package br.com.foco.financeiro.entity;
 
+import br.com.foco.financeiro.config.CarteiraListener;
 import br.com.foco.financeiro.contant.TipoLancamento;
 import jakarta.persistence.*;
 
@@ -7,7 +8,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
-public class Lancamento {
+@EntityListeners(CarteiraListener.class)
+public class Lancamento implements ICarteira {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,8 +22,8 @@ public class Lancamento {
     private Categoria categoria;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_usuario", nullable = false)
-    private Usuario usuario;
+    @JoinColumn(name = "id_carteira", nullable = false)
+    private Carteira carteira;
 
     private LocalDate data;
 
@@ -73,11 +75,11 @@ public class Lancamento {
         this.data = data;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public Carteira getCarteira() {
+        return carteira;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setCarteira(Carteira carteira) {
+        this.carteira = carteira;
     }
 }
