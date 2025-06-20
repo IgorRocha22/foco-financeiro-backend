@@ -50,7 +50,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         // Define as origens permitidas (seu frontend React)
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://localhost:5173")); // Adicione outras origens se necessário (ex: Vercel)
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://localhost:5173", "https://foco-financeiro-frontend.vercel.app")); // Adicione outras origens se necessário (ex: Vercel)
         // Define os métodos HTTP permitidos
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         // Define os headers permitidos
