@@ -12,7 +12,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/lancamento")
-@CrossOrigin(origins = "*")
 public class LancamentoController {
     @Autowired
     private LancamentoService lancamentoService;
